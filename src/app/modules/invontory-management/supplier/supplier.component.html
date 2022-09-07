@@ -1,0 +1,260 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Supplier Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="" routerLinkActive="active">Home</a></li>
+                        <li class="breadcrumb-item active">Manage User</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button data-toggle="modal" data-target="#modal-edit-testType" type="button"
+                                class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px;">Add Supplier</button>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;" class="text-center">#</th>
+                                        <th>Company Name</th>
+                                        <th>Contact Name</th>
+                                        <th>Address</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th style="width: 120px" class="text-center">View Image</th>
+                                        <th class="text-center" style="width:40px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of itemList; let ndx = index">
+                                        <td class="text-center">{{ndx + 1}}</td>
+                    
+                                        <td>{{item.companyName}}</td>
+                                        <td>{{item.contactName}}</td>
+                                        <td>{{item.address}}</td>
+                                        <td>{{item.phone}}</td>
+                                        <td>{{item.email}}</td>
+                                        <td *ngIf="item.imageName!=null; else elseBlock" class="text-center">
+                                            <img [src]="imageSource+item.imageName" style="height:60px!important; width:auto!important;" />
+                                        </td>
+                                        <ng-template #elseBlock>
+                                            <td class="text-center"><img [src]="noImage"
+                                                    style="height:60px!important; width:auto!important;" /></td>
+                                        </ng-template>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button"
+                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <li><a class="dropdown-item" (click)="pupulateForm(item)" data-toggle="modal"
+                                                                data-target="#modal-edit-testType">Edit</a></li>
+                                                        <li><a class="dropdown-item" (click)="onDelete(item.supplierId)">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                    
+                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="modal-edit-testType" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-navy">
+                <h4 class="modal-title">Supplier Information</h4>
+                <button type="button" #closebutton class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="clearForm()">×</span>
+                </button>
+            </div>
+            <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <input type="hidden" formControlName="supplierId">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" class="form-control" placeholder="Enter ..."
+                                    formControlName="companyName">
+                                <div
+                                    *ngIf="companyName?.invalid &&  formSubmitAttempt || companyName?.invalid &&  (companyName?.dirty || companyName?.touched)">
+                                    <span *ngIf="companyName?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        company name.
+                                    </span>
+                                    <span *ngIf="companyName?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 80
+                                        Characters</span>
+                                    <!-- <span *ngIf="companyName?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Name must contain at least 4
+                                        Characters </span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Contact Name</label>
+                                <input type="text" class="form-control" placeholder="Enter ..."
+                                    formControlName="contactName">
+                                <div
+                                    *ngIf="contactName?.invalid &&  formSubmitAttempt || contactName?.invalid &&  (contactName?.dirty || contactName?.touched)">
+                                    <span *ngIf="contactName?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        contact name.
+                                    </span>
+                                    <span *ngIf="contactName?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 80
+                                        Characters</span>
+                                    <!-- <span *ngIf="contactName?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Name must contain at least 4
+                                        Characters </span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control" placeholder="Enter ..."
+                                    formControlName="address">
+                                    <div *ngIf="address?.invalid &&  formSubmitAttempt || address?.invalid &&  (address?.dirty || address?.touched)">
+                                        <span *ngIf="address?.hasError('required')"
+                                            class="error invalid-message text-danger">Please enter
+                                            contact name.
+                                        </span>
+                                        <span *ngIf="address?.hasError('maxlength')"
+                                            class="error invalid-message text-danger">Name Can contain at most 50 Characters</span>
+                                            <span *ngIf="address?.hasError('minlength')"
+                                            class="error invalid-message text-danger">Name must contain at least 4 Characters </span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" placeholder="Enter ..." formControlName="email">
+                                <div
+                                    *ngIf="email?.invalid &&  formSubmitAttempt || email?.invalid &&  (email?.dirty || email?.touched)">
+                                    <span *ngIf="email?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        contact name.
+                                    </span>
+                                    <span *ngIf="email?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 80
+                                        Characters</span>
+                                    <!-- <span *ngIf="email?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Name must contain at least 4 Characters
+                                    </span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" placeholder="Enter ..." formControlName="phone">
+                                <div
+                                    *ngIf="phone?.invalid &&  formSubmitAttempt || phone?.invalid &&  (phone?.dirty || phone?.touched)">
+                                    <span *ngIf="phone?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        phone no.
+                                    </span>
+                                    <span *ngIf="phone?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Phone no Can contain at most 14
+                                        Characters</span>
+                                    <span *ngIf="phone?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Phone no must contain at least 11
+                                        Characters </span>
+                                </div>
+                            </div>                       
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="exampleInputFile">Image</label>
+                        <img [src]="filePath" style="height:90px!important; width:auto!important;"
+                            class="form-control change_images" /><br>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile"
+                                    (change)="handleFileInput($event)">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                        (click)="clearForm()">Close</button>
+                    <button type="submit" class="btn btn-primary bg-navy">Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

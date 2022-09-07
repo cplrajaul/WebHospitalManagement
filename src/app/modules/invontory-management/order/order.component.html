@@ -1,0 +1,207 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Order Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="" routerLinkActive="active">Home</a></li>
+                        <li class="breadcrumb-item active">Order Info</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button data-toggle="modal" data-target="#modal-edit-insert" type="button" class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px;" (click)="clearForm()" >Add New
+                                Order</button>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap table-bordered" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10;">#</th>
+                                        <th>Patient Name</th>
+                                        <th>Product Name</th>
+                                        <th>Date Of Order</th>
+                                        <th>Order Deatils</th>
+                                        <th>Quantity</th>
+                                        <th>Sales Unit Price</th>
+                                        <th>Total</th>
+
+                                        <th style="width:40px;" class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of itemList; let ndx = index">
+                                        <td>{{ndx + 1}}</td>
+                                        <td>{{item.patientName}}</td>
+                                        <td>{{item.productName}}</td>
+                                        <td>{{item.date_Of_Order}}</td>
+                                        <td>{{item.orderDeatils}}</td>
+                                        <td>{{item.quantity}}</td>
+                                        <td>{{item.salesUnitPrice}}</td>
+                                        <td>{{item.quantity * item.salesUnitPrice}}</td>
+
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <li><a class="dropdown-item" (click)="pupulateForm(item)" data-toggle="modal" data-target="#modal-edit-insert">Edit</a></li>
+                                                        <li><a class="dropdown-item" (click)="onDelete(item.orderId)">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="modal-edit-insert" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-navy">
+                <h4 class="modal-title">Order Information</h4>
+                <button type="button" #closebutton class="close text-white" data-dismiss="modal" aria-label="Close" (click)="clearForm()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <input type="hidden" formControlName="orderId">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Patient Name</label>
+                            <select formControlName="patientAdmissionId" class="form-control">
+                                <option value="" selected disabled>Select Patient Name</option>
+                                <option *ngFor="let patient of patientList" [ngValue]="patient.patientAdmissionId">
+                                    {{patient.patientName}}</option>
+                            </select>
+                            <span *ngIf="patientAdmissionId?.invalid && formSubmitAttempt || patientAdmissionId?.invalid && patientAdmissionId?.touched" class="error invalid-message">Please
+                                Select Patient Name!</span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>Product Category</label>
+                            <select formControlName="categoryId" class="form-control" (change)="getProductDDL($any($event.target).value)">
+                                <option value="" selected disabled>Select Product Category</option>
+                                <option *ngFor="let category of categoryList" [value]="category.categoryId">
+                                    {{category.categoryName}}</option>
+                            </select>
+                            <span *ngIf="categoryId?.invalid && formSubmitAttempt || categoryId?.invalid && categoryId?.touched" class="error invalid-message">Please
+                                Select Product Category!</span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>Product Name</label>
+                            <select formControlName="productId" class="form-control" (change)="getProductById($any($event.target).value)">
+                                <option value="" selected disabled>Select Product Name</option>
+                                <option *ngFor="let product of productList" [value]="product.productId">
+                                    {{product.productName}}</option>
+                            </select>
+                            <span *ngIf="productId?.invalid && formSubmitAttempt || productId?.invalid && productId?.touched" class="error invalid-message">Please
+                                Select Product Name!</span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Sales Unit Price</label>
+                                <input type="number" class="form-control" formControlName="salesUnitPrice" (keyup)="fillTotal()"  readonly>
+                                <span *ngIf="salesUnitPrice?.invalid && formSubmitAttempt || salesUnitPrice?.invalid && salesUnitPrice?.touched" class="error invalid-message">Please Enter Sales Unit Price!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Date Of Order</label>
+                                <input type="date" class="form-control" formControlName="date_Of_Order">
+                                <span *ngIf="date_Of_Order?.invalid && formSubmitAttempt || date_Of_Order?.invalid && date_Of_Order?.touched" class="error invalid-message">Please Enter Date Of Order!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Order Details</label>
+                                <input type="text" class="form-control" formControlName="orderDeatils">
+                                <span *ngIf="orderDeatils?.invalid && formSubmitAttempt || orderDeatils?.invalid && orderDeatils?.touched" class="error invalid-message">Please Enter Order Details!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" class="form-control" formControlName="quantity" (keyup)="fillTotal()" >
+                                <span *ngIf="quantity?.invalid && formSubmitAttempt || quantity?.invalid && quantity?.touched" class="error invalid-message">Please Enter Order Quantity!</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Total</label>
+                                <input type="number" class="form-control" formControlName="total" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearForm()">Close</button>
+                    <button type="submit" class="btn btn-primary bg-navy" >Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

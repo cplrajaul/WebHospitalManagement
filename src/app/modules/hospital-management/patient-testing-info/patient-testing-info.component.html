@@ -1,0 +1,304 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Patient Tests Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a routerLink="" routerLinkActive="active">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Patient Tests Info</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button data-toggle="modal" data-target="#modal-edit-insert" type="button" class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px">
+                New Patient Test
+              </button>
+                            <button data-toggle="modal" data-target="#modal-existing-patient" type="button" class="btn btn-block btn-info btn-xs card-title bg-navy mt-0" style="width: 120px">
+                Admited Patient Test
+              </button>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search" />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10">#</th>
+                                        <th>Test Name</th>
+                                        <th>Test Date</th>
+                                        <th>PatientAdmissionId</th>
+                                        <th>Remarks</th>
+                                        <th>Quantity</th>
+                                        <th>UnitPrice</th>
+                                        <th>Total</th>
+                                        <th>VoucherDate</th>
+                                        <th style="width: 40px" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of itemList; let ndx = index">
+                                        <td>{{ ndx + 1 }}</td>
+                                        <!-- <td>{{item.testNames}}</td> -->
+                                        <td>{{ item.testDate }}</td>
+                                        <td>{{ item.patientAdmissionId }}</td>
+                                        <td>{{ item.remarks }}</td>
+                                        <td>{{ item.unitPrice }}</td>
+
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                            Action
+                          </a>
+                                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <!-- <li><a class="dropdown-item" (click)="pupulateForm(item)"
+                                                                data-toggle="modal"
+                                                                data-target="#modal-edit-insert">Edit</a></li> -->
+                                                        <li>
+                                                            <a class="dropdown-item" (click)="onDelete(item.testNo)">Delete</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <ul class="pagination pagination-sm m-0 float-right">
+                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">»</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+    </section>
+    <!-- /.content -->
+    </div>
+
+    <div class="modal fade" id="modal-existing-patient" style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-navy">
+                    <h4 class="modal-title">Patient Tesing Information</h4>
+                    <button type="button" #closebutton class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="patientTestingInfoEntryForm" (ngSubmit)="onTestListSubmit()">
+                        <input type="hidden" formControlName="indexNumber" />
+                        <input type="hidden" formControlName="testName" />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Patient Name</label>
+                                    <select formControlName="patientAdmissionId" class="form-control" (change)="resetTestingForm()">
+                  <option value="" disabled>Choose Patient Name</option>
+                  <option
+                    *ngFor="let pAdmission of patientAdmissionList"
+                    [value]="pAdmission.patientAdmissionId"
+                  >
+                    {{ pAdmission.patientName }}
+                  </option>
+                </select>
+                                    <span *ngIf="
+                    (patientAdmissionId?.invalid && formSubmitAttempt) ||
+                    (patientAdmissionId?.invalid && patientAdmissionId?.touched)
+                  " class="error invalid-message">Please select a patient.</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Category</label>
+                <select
+                  formControlName="categoryId"
+                  class="form-control"
+                  (change)="getTestInfoList($any($event.target).value)"
+                >
+                  <option value="" disabled>Select Category</option>
+                  <option
+                    *ngFor="let category of categoryList"
+                    [value]="category.categoryId"
+                  >
+                    {{ category.categoryName }}
+                  </option>
+                </select>
+                <span
+                  *ngIf="
+                    (categoryId?.invalid && formSubmitAttempt) ||
+                    (categoryId?.invalid &&
+                      categoryId?.invalid &&
+                      categoryId?.touched)
+                  "
+                  class="error invalid-message text-danger"
+                  >Please select a test category</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Name</label>
+                <select
+                  formControlName="testId"
+                  class="form-control"
+                  (change)="getTestInfoById($any($event.target).value)"
+                >
+                  <option value="" disabled>Test Name</option>
+                  <option *ngFor="let test of testList" [value]="test.testId">
+                    {{ test.testName }}
+                  </option>
+                </select>
+                <span
+                  *ngIf="
+                    (testId?.invalid && formSubmitAttempt) ||
+                    (testId?.invalid && testId?.touched)
+                  "
+                  class="error invalid-message"
+                  >Please select a Test.</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="unitPrice"
+                />
+                <span
+                  *ngIf="unitPrice?.invalid && unitPrice?.touched"
+                  class="error invalid-message"
+                  >Please enter UnitPrice</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Date</label>
+                <input
+                  type="date"
+                  class="form-control is-valid"
+                  formControlName="testDate"
+                />
+                <span
+                  *ngIf="testDate?.invalid && testDate?.touched"
+                  class="error invalid-message"
+                  >Please enter Test Date</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Remarks</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="remarks"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="justify-content-between">
+            <button type="submit" class="btn btn-primary bg-navy">Add</button>
+          </div>
+        </form>
+      </div>
+      <form (ngSubmit)="insert()">
+        <div class="modal-footer justify-content-between">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Test Name</th>
+                <th class="text-center">Unit Price</th>
+                <th style="width: 80px" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of this.patientTestingInfoService
+                    .patientTestingInfoViewModel;
+                  let ndx = index
+                "
+              >
+                <td>{{ ndx + 1 }}.</td>
+                <td>
+                  {{ item.testName }}
+                </td>
+                <td class="text-center" (click)="pupulateForm(item, ndx + 1)">
+                  {{ item.unitPrice }}
+                </td>
+                <td
+                  class="text-center"
+                  style="cursor: pointer"
+                  (click)="deleteFormTestingList(ndx)"
+                >
+                  <i class="fas fa-trash"></i>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th rowspan="1" colspan="2" class="text-right">Total</th>
+                <th rowspan="1" colspan="1" class="text-center">
+                  {{ this.total }}
+                </th>
+                <th rowspan="1" colspan="1" class="text-right"></th>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary bg-navy">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,100 @@
+<div class="card">
+    <div class="card-header">
+        <button data-toggle="modal" data-target="#modal-edit-department" type="button"
+            class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px;">Add Department</button>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 40px;" class="text-center">#</th>
+                    <th>Department Name</th>
+
+                    <th class="text-center" style="width:40px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of itemList; let ndx = index">
+                    <td class="text-center">{{ndx + 1}}</td>
+
+                    <td>{{item.departmentName}}</td>
+
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <div class="dropdown">
+                                <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button"
+                                    id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                    Action
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="dropdown-item" (click)="pupulateForm(item)" data-toggle="modal"
+                                            data-target="#modal-edit-department">Edit</a></li>
+                                    <li><a class="dropdown-item" (click)="onDelete(item.departmentId)">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">«</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">»</a></li>
+        </ul>
+    </div>
+</div>
+<div class="modal fade" id="modal-edit-department" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-navy">
+                <h4 class="modal-title">Department Information</h4>
+                <button type="button" #closebutton class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="clearForm()">×</span>
+                </button>
+            </div>
+            <form [formGroup]="deptInfoForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <input type="hidden" formControlName="departmentId">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Department Name</label>
+                                <input type="text" class="form-control" formControlName="departmentName">
+                                <span *ngIf="departmentName?.invalid && formSubmitAttempt || departmentName?.invalid && departmentName?.touched"
+                                    class="error invalid-message">Please enter departmentName Name </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearForm()">Close</button>
+                    <button type="submit" class="btn btn-primary bg-navy" >Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

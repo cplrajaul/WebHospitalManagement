@@ -1,0 +1,271 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Medicine Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="" routerLinkActive="active">Home</a></li>
+                        <li class="breadcrumb-item active">Manage User</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+     <!-- Main content -->
+     <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <button data-toggle="modal" data-target="#modal-edit-insert" type="button"
+                              class="btn btn-block btn-info btn-xs card-title bg-navy"
+                              style="width: 120px;" (click)="clearForm()" >New Product</button>
+                          <div class="card-tools">
+                              <div class="input-group input-group-sm" style="width: 150px;">
+                                  <input type="text" name="table_search" class="form-control float-right"
+                                      placeholder="Search">
+                                  <div class="input-group-append">
+                                      <button type="submit" class="btn btn-default">
+                                          <i class="fas fa-search"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10;">#</th>
+                                    <th>Product Name</th>
+                                    <th>purchase Date</th>
+                                    <th>Supplier</th>
+                                    <th>Catagory</th>
+                                    <th>Quantity</th>
+                                    <th>UnitPrice</th>
+                                    <th>Sales Unit Pric</th>
+                                    <th style="width: 120px" class="text-center">View Image</th>
+                                    <th style="width:40px;" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of productList; let ndx = index">
+                                    <td>{{ndx + 1}}</td>
+                                    <td>{{item.productName}}</td>
+                                     <td class="text-center">{{item.purchaseDate}}</td>
+                                    <td>{{item.supplierName}}</td>
+                                    <td>{{item.categoryName}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td>{{item.unitPrice}}</td>
+                                    <td>{{item.salesUnitPrice}}</td>
+                                    <!-- <td class="text-center">
+                                        <input type="time" style="border: none; background-color: transparent;" [value]="item.dutyStartTime" disabled>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="time" style="border: none; background-color: transparent;" [value]="item.dutyEndTime" disabled>
+                                    </td> -->
+                                    <!-- <td class="text-center">{{item.joinDate}}</td>
+                                    <td class="text-center">{{item.commissionStatus}}</td> -->
+                                    <td *ngIf="item.imageName!=null; else elseBlock" class="text-center">
+                                        <img [src]="imageSource+item.imageName"
+                                            style="height:60px!important; width:auto!important;" />
+                                    </td>
+                                    <ng-template #elseBlock><td class="text-center"><img [src]="noImage"
+                                        style="height:60px!important; width:auto!important;" /></td></ng-template>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <div class="dropdown">
+                                                <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button"
+                                                    id="dropdownMenuLink" data-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    Action
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right"
+                                                    aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item"
+                                                            (click)="pupulateForm(item)" data-toggle="modal" data-target="#modal-edit-insert">Edit</a></li>
+                                                    <li><a class="dropdown-item"
+                                                            (click)="onDelete(item.productId)">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <ul class="pagination pagination-sm m-0 float-right">
+                            <li class="page-item"><a class="page-link" href="#">«</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+  </section>
+  <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-edit-insert"  style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-navy">
+            <h4 class="modal-title">Medicine Information</h4>
+            <button type="button" class="close text-white" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <form [formGroup]="ProductInformationfrom" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <input type="hidden" formControlName="productId">
+                <input type="hidden" formControlName="imageName">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Medicine Name</label>
+                            <input type="text" class="form-control" placeholder="Enter ..."
+                                formControlName="productName">
+                                <div *ngIf="productName?.invalid &&  formSubmitAttempt || productName?.invalid &&  (productName?.dirty || productName?.touched)">
+                                    <span *ngIf="productName?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        Medicine Name
+                                    </span>
+                                    <span *ngIf="productName?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 50 Characters</span>
+                                        <span *ngIf="productName?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Name must contain at least 4 Characters </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                          <input type="hidden" formControlName="supplierId">
+                          <div class="form-group">
+                            <label>Supplier</label>
+                            <select formControlName="supplierId" class="form-control">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let supp of supplierList" [value]="supp.supplierId">
+                                    {{supp.companyName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <input type="hidden" formControlName="categoryId">
+                          <div class="form-group">
+                            <label>Category</label>
+                            <select formControlName="categoryId" class="form-control">
+                                <option value="" selected disabled>--Select--</option>
+                                <option *ngFor="let cat of categoryList" [ngValue]="cat.categoryId">
+                                    {{cat.categoryName}}</option>
+                            </select>
+                            <span *ngIf="categoryId?.invalid && formSubmitAttempt || categoryId?.invalid && categoryId?.invalid && categoryId?.touched"
+                                      class="error invalid-message text-danger">Please select a test
+                                      category</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="text" class="form-control" (keyup)="totalMedicinePrice()" placeholder="Enter ..." formControlName="quantity">
+                            <div *ngIf="quantity?.invalid && formSubmitAttempt || quantity?.invalid &&  (quantity?.dirty || quantity?.touched)">
+                                <span *ngIf="quantity?.hasError('required')"
+                                    class="error invalid-message text-danger">Please enter
+                                    quantity
+                                </span>
+                                <span *ngIf="quantity?.hasError('maxlength')"
+                                    class="error invalid-message text-danger">Name Can contain at most 15 Characters</span>
+                                    <span *ngIf="quantity?.hasError('minlength')"
+                                    class="error invalid-message text-danger">Name must contain at least 12 Characters </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Unit Price</label>
+                            <input type="text" class="form-control" (keyup)="totalMedicinePrice()" placeholder="Enter ..."
+                                formControlName="unitPrice">
+                                <div *ngIf="unitPrice?.invalid && formSubmitAttempt || unitPrice?.invalid &&  (unitPrice?.dirty || unitPrice?.touched)">
+                                    <span *ngIf="unitPrice?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        Unit Price
+                                    </span>
+                                    <span *ngIf="unitPrice?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 100 Characters</span>
+                                        <span *ngIf="unitPrice?.hasError('minlength')"
+                                        class="error invalid-message text-danger">Name must contain at least 15 Characters </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                          <label>Total Price</label>
+                          <input type="number" readonly (keyup)="totalMedicinePrice()" class="form-control" formControlName="totalPrice">
+                      </div>
+                  </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Sales Unit Price</label>
+                            <input type="text" class="form-control" placeholder="Enter ..."
+                                formControlName="salesUnitPrice">
+                                <div *ngIf="salesUnitPrice?.invalid && formSubmitAttempt || salesUnitPrice?.invalid && (salesUnitPrice?.dirty || salesUnitPrice?.touched)">
+                                    <span *ngIf="salesUnitPrice?.hasError('required')"
+                                        class="error invalid-message text-danger">Please enter
+                                        Unit Sale Price
+                                    </span>
+                                    <span *ngIf="salesUnitPrice?.hasError('maxlength')"
+                                        class="error invalid-message text-danger">Name Can contain at most 80 Characters</span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                          <label>purchase Date</label>
+                          <input type="date" class="form-control" formControlName="purchaseDate">
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+  
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFile">Medicine Image</label>
+                    <img [src]="filePath" style="height:90px!important; width:auto!important;"
+                        class="form-control change_images" /><br>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="exampleInputFile"
+                                (change)="handleFileInput($event)">
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearForm()">Close</button>
+                <button type="submit" class="btn btn-primary bg-navy" >Save changes</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+  </div>

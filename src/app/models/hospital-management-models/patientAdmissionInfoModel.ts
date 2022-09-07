@@ -1,0 +1,30 @@
+export class PatientAdmissionInfoModel {
+    public patientAdmissionId: number=0;
+    public admissionDate: string="";
+    public doctorId: number=0;
+    public doctorName: string = '';
+    public patientId:number=0;
+    public patientName: string = '';
+    public gender: string = '';
+    public fatherName: string = '';
+    public address: string = '';
+    public phone: string = '';
+    public occupation: string = '';
+    public nationality: string = '';
+    public nidCardNo: string = '';
+    public bloodGroup: string = '';
+    public age: number=0;
+    public imageName: string = '';
+    public remarks: string = '';
+    public cabinTypeId: number=0;
+    public cabinTypeName:string='';
+    public cabinId: number=0;
+    public cabinName: string = '';
+    public wardNo: number=0;
+    public wardName: string = '';
+    public bedId: number=0;
+    public bedNo: string = '';
+    public advanceAmount: number=0;
+    public costPerDay: number=0;
+    public bookingStatus:number=0;
+}

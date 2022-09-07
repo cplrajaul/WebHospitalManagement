@@ -1,0 +1,629 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Patient Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a routerLink="" routerLinkActive="active">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Manage User</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button data-toggle="modal" data-target="#modal-edit-insert" type="button" class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px">
+                New Patient
+              </button>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search" />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <form [formGroup]="outdootPatientTestForm" (ngSubmit)="onSubmit()">
+                                <input type="hidden" formControlName="patientId" />
+                                <input type="hidden" formControlName="isAdmit" />
+                                <input type="hidden" formControlName="imageName" />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Patient Name</label>
+                                            <input type="text" class="form-control" placeholder="Enter ..." formControlName="patientName" />
+                                            <span *ngIf="
+                          (patientName?.invalid && formSubmitAttempt) ||
+                          (patientName?.invalid && patientName?.touched)
+                        " class="error invalid-message text-danger">Please enter doctor name.</span
+                      >
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Gender</label>
+                      <select formControlName="gender" class="form-control">
+                        <option value="" selected disabled hidden>
+                          Select Gender
+                        </option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                      </select>
+                      <span
+                        *ngIf="
+                          (gender?.invalid && formSubmitAttempt) ||
+                          (gender?.invalid && gender?.touched)
+                        "
+                        class="error invalid-message text-danger"
+                        >Please Select Gender.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label>Father Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="fatherName"
+                      />
+                      <span
+                        *ngIf="fatherName?.invalid && fatherName?.touched"
+                        class="error invalid-message text-danger"
+                        >Enter Father Name</span
+                      >
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Phone No</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter ..."
+                        formControlName="phone"
+                      />
+                      <span
+                        *ngIf="
+                          (phone?.invalid && formSubmitAttempt) ||
+                          (phone?.invalid && phone?.touched)
+                        "
+                        class="error invalid-message text-danger"
+                        >Please enter Phone no.</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label>Address</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter ..."
+                        formControlName="address"
+                      />
+                      <span
+                        *ngIf="
+                          (address?.invalid && formSubmitAttempt) ||
+                          (address?.invalid && address?.touched)
+                        "
+                        class="error invalid-message text-danger"
+                        >Please enter address.</span
+                      >
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Age</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="age"
+                      />
+                      <span
+                        *ngIf="
+                          (age?.invalid && formSubmitAttempt) ||
+                          (age?.invalid && age?.touched)
+                        "
+                        class="error invalid-message text-danger"
+                        >Please enter patient age</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Nationality</label>
+                      <select
+                        formControlName="nationality"
+                        class="form-control"
+                      >
+                        <option value="" selected disabled hidden>
+                          Select Nationality
+                        </option>
+                        <option value="Afghan">Afghan</option>
+                        <option value="Albanian">Albanian</option>
+                        <option value="Algerian">Algerian</option>
+                        <option value="American">American</option>
+                        <option value="Andorran">Andorran</option>
+                        <option value="Angolan">Angolan</option>
+                        <option value="Anguillan">Anguillan</option>
+                        <option value="Argentine">Argentine</option>
+                        <option value="Armenian">Armenian</option>
+                        <option value="Argentinian">Argentinian</option>
+                        <option value="Australian">Australian</option>
+                        <option value="Austrian">Austrian</option>
+                        <option value="Azerbaijani">Azerbaijani</option>
+
+                        <option value="Bahamian">Bahamian</option>
+                        <option value="Bahraini">Bahraini</option>
+                        <option value="Bangladeshi">Bangladeshi</option>
+                        <option value="Barbadian">Barbadian</option>
+                        <option value="Belarusian">Belarusian</option>
+                        <option value="Belgian">Belgian</option>
+                        <option value="Belizean">Belizean</option>
+                        <option value="Beninese">Beninese</option>
+                        <option value="Bermudian">Bermudian</option>
+                        <option value="Bhutanese">Bhutanese</option>
+                        <option value="Bolivian">Bolivian</option>
+                        <option value="Botswanan">Botswanan</option>
+                        <option value="Bruneian">Bruneian</option>
+                        <option value="Batswana">Batswana</option>
+                        <option value="Brazilian">Brazilian</option>
+                        <option value="British">British</option>
+                        <option value="Bulgarian">Bulgarian</option>
+                        <option value="Burkinan">Burkinan</option>
+                        <option value="Burmese">Burmese</option>
+                        <option value="Burundian">Burundian</option>
+
+                        <option value="Cambodian">Cambodian</option>
+                        <option value="Cameroonian">Cameroonian</option>
+                        <option value="Canadian">Canadian</option>
+                        <option value="Cape Verdean">Cape Verdean</option>
+                        <option value="Cayman Islander">Cayman Islander</option>
+                        <option value="Central African">Central African</option>
+                        <option value="Chadian">Chadian</option>
+                        <option value="Chilean">Chilean</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Colombian">Colombian</option>
+                        <option value="Costa Rican ">Costa Rican</option>
+                        <option value="Croatian">Croatian</option>
+                        <option value="Cuban">Cuban</option>
+                        <option value="Czech">Czech</option>
+
+                        <option value="Danish">Danish</option>
+                        <option value="Dominican">Dominican</option>
+                        <option value="Dutch">Dutch</option>
+
+                        <option value="Ecuadorian">Ecuadorian</option>
+                        <option value="Emirati">Emirati</option>
+                        <option value="Egyptian">Egyptian</option>
+                        <option value="English">English</option>
+                        <option value="Estonian">Estonian</option>
+                        <option value="Ethiopian">Ethiopian</option>
+
+                        <option value="Fijian">Fijian</option>
+                        <option value="Finnish">Finnish</option>
+                        <option value="French">French</option>
+
+                        <option value="German">German</option>
+                        <option value="Ghanaian">Ghanaian</option>
+                        <option value="Greek">Greek</option>
+                        <option value="Guatemalan">Guatemalan</option>
+
+                        <option value="Haitian">Haitian</option>
+                        <option value="Honduran">Honduran</option>
+                        <option value="Hungarian">Hungarian</option>
+
+                        <option value="Icelandic">Icelandic</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Indonesian">Indonesian</option>
+                        <option value="Iranian">Iranian</option>
+                        <option value="Iraqi">Iraqi</option>
+                        <option value="Irish">Irish</option>
+                        <option value="Israeli">Israeli</option>
+                        <option value="Italian">Italian</option>
+
+                        <option value="Jamaican">Jamaican</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Jordanian">Jordanian</option>
+
+                        <option value="Kazakh">Kazakh</option>
+                        <option value="Kenyan">Kenyan</option>
+                        <option value="Kittitian">Kittitian</option>
+                        <option value="Kosovan">Kosovan</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Kuwaiti">Kuwaiti</option>
+                        <option value="Kyrgyz">Kyrgyz</option>
+
+                        <option value="Lao">Lao</option>
+                        <option value="Latvian">Latvian</option>
+                        <option value="Lebanese">Lebanese</option>
+                        <option value="Libyan">Libyan</option>
+                        <option value="Lithuanian">Lithuanian</option>
+
+                        <option value="Malagasy">Malagasy</option>
+                        <option value="Malaysian">Malaysian</option>
+                        <option value="Malian">Malian</option>
+                        <option value="Maltese">Maltese</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Mongolian">Mongolian</option>
+                        <option value="Moroccan">Moroccan</option>
+                        <option value="Mozambican">Mozambican</option>
+
+                        <option value="Namibian">Namibian</option>
+                        <option value="Nepalese">Nepalese</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nicaraguan">Nicaraguan</option>
+                        <option value="Nigerian">Nigerian</option>
+                        <option value="Norwegian">Norwegian</option>
+
+                        <option value="Omani">Omani</option>
+
+                        <option value="Pakistani">Pakistani</option>
+                        <option value="Panamanian">Panamanian</option>
+                        <option value="Paraguayan">Paraguayan</option>
+                        <option value="Peruvian">Peruvian</option>
+                        <option value="Philippine">Philippine</option>
+                        <option value="Polish">Polish</option>
+                        <option value="Portuguese">Portuguese</option>
+
+                        <option value="Qatari">Qatari</option>
+
+                        <option value="Romanian">Romanian</option>
+                        <option value="Russian">Russian</option>
+                        <option value="Rwandan">Rwandan</option>
+
+                        <option value="Salvadorian">Salvadorian</option>
+                        <option value="Saudi">Saudi</option>
+                        <option value="Scottish">Scottish</option>
+                        <option value="Senegalese">Senegalese</option>
+                        <option value="Serbian">Serbian</option>
+                        <option value="Singaporean">Singaporean</option>
+                        <option value="Slovak">Slovak</option>
+                        <option value="South African">South African</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Sri Lankan">Sri Lankan</option>
+                        <option value="Sudanese">Sudanese</option>
+                        <option value="Swedish">Swedish</option>
+                        <option value="Swiss">Swiss</option>
+                        <option value="Syrian">Syrian</option>
+
+                        <option value="Taiwanese">Taiwanese</option>
+                        <option value="Tajikistani">Tajikistani</option>
+                        <option value="Thai">Thai</option>
+                        <option value="Tongan">Tongan</option>
+                        <option value="Tunisian">Tunisian</option>
+                        <option value="Turkish">Turkish</option>
+
+                        <option value="Ugandan">Ugandan</option>
+                        <option value="Ukrainian">Ukrainian</option>
+                        <option value="Uruguayan">Uruguayan</option>
+                        <option value="Uzbek">Uzbek</option>
+
+                        <option value="Vatican citizen">Vatican citizen</option>
+                        <option value="Venezuelan">Venezuelan</option>
+                        <option value="Vietnamese">Vietnamese</option>
+                        <option value="Vincentian">Vincentian</option>
+
+                        <option value="Wallisian">Wallisian</option>
+                        <option value="Welsh">Welsh</option>
+
+                        <option value="Yemeni">Yemeni</option>
+
+                        <option value="Zambian">Zambian</option>
+                        <option value="Zimbabwean">Zimbabwean</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>National ID</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="nidCardNo"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Occupation</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="occupation"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Blood Group</label>
+                      <select formControlName="bloodGroup" class="form-control">
+                        <option value="" selected disabled hidden>
+                          Select Blood Group
+                        </option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile"> Image</label>
+                  <img
+                    [src]="filePath"
+                    style="height: 90px !important; width: auto !important"
+                    class="form-control change_images"
+                  /><br />
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="exampleInputFile"
+                        (change)="handleFileInput($event)"
+                      />
+                      <label class="custom-file-label" for="exampleInputFile"
+                        >Choose file</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="justify-content-between">
+                  <button type="submit" class="btn btn-primary bg-navy">
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<div
+  class="modal fade"
+  id="modal-existing-patient"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-navy">
+        <h4 class="modal-title">Patient Tesing Information</h4>
+        <button
+          type="button"
+          #closebutton
+          class="close text-white"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="outdootPatientTestForm" (ngSubmit)="onTestListSubmit()">
+                                                <input type="hidden" formControlName="indexNumber" />
+                                                <input type="hidden" formControlName="testName" />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <!-- text input -->
+                                                        <div class="form-group">
+                                                            <label>Patient Name</label>
+                                                            <select formControlName="patientAdmissionId" class="form-control" (change)="resetTestingForm()">
+                  <option value="" disabled>Choose Patient Name</option>
+                  <option
+                    *ngFor="let pAdmission of patientAdmissionList"
+                    [value]="pAdmission.patientAdmissionId"
+                  >
+                    {{ pAdmission.patientName }}
+                  </option>
+                </select>
+                                                            <span *ngIf="
+                    (patientAdmissionId?.invalid && formSubmitAttempt) ||
+                    (patientAdmissionId?.invalid && patientAdmissionId?.touched)
+                  " class="error invalid-message">Please select a patient.</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Category</label>
+                <select
+                  formControlName="categoryId"
+                  class="form-control"
+                  (change)="getTestInfoList($any($event.target).value)"
+                >
+                  <option value="" disabled>Select Category</option>
+                  <option
+                    *ngFor="let category of categoryList"
+                    [value]="category.categoryId"
+                  >
+                    {{ category.categoryName }}
+                  </option>
+                </select>
+                <span
+                  *ngIf="
+                    (categoryId?.invalid && formSubmitAttempt) ||
+                    (categoryId?.invalid &&
+                      categoryId?.invalid &&
+                      categoryId?.touched)
+                  "
+                  class="error invalid-message text-danger"
+                  >Please select a test category</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Name</label>
+                <select
+                  formControlName="testId"
+                  class="form-control"
+                  (change)="getTestInfoById($any($event.target).value)"
+                >
+                  <option value="" disabled>Test Name</option>
+                  <option *ngFor="let test of testList" [value]="test.testId">
+                    {{ test.testName }}
+                  </option>
+                </select>
+                <span
+                  *ngIf="
+                    (testId?.invalid && formSubmitAttempt) ||
+                    (testId?.invalid && testId?.touched)
+                  "
+                  class="error invalid-message"
+                  >Please select a Test.</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="unitPrice"
+                />
+                <span
+                  *ngIf="unitPrice?.invalid && unitPrice?.touched"
+                  class="error invalid-message"
+                  >Please enter UnitPrice</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Test Date</label>
+                <input
+                  type="date"
+                  class="form-control is-valid"
+                  formControlName="testDate"
+                />
+                <span
+                  *ngIf="testDate?.invalid && testDate?.touched"
+                  class="error invalid-message"
+                  >Please enter Test Date</span
+                >
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Remarks</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="remarks"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="justify-content-between">
+            <button type="submit" class="btn btn-primary bg-navy">Add</button>
+          </div>
+        </form>
+      </div>
+      <form (ngSubmit)="insert()">
+        <div class="modal-footer justify-content-between">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Test Name</th>
+                <th class="text-center">Unit Price</th>
+                <th style="width: 80px" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of this.patientTestingInfoService
+                    .patientTestingInfoViewModel;
+                  let ndx = index
+                "
+              >
+                <td>{{ ndx + 1 }}.</td>
+                <td>
+                  {{ item.testName }}
+                </td>
+                <td class="text-center" (click)="pupulateForm(item, ndx + 1)">
+                  {{ item.unitPrice }}
+                </td>
+                <td
+                  class="text-center"
+                  style="cursor: pointer"
+                  (click)="deleteFormTestingList(ndx)"
+                >
+                  <i class="fas fa-trash"></i>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th rowspan="1" colspan="2" class="text-right">Total</th>
+                <th rowspan="1" colspan="1" class="text-center">
+                  {{ this.total }}
+                </th>
+                <th rowspan="1" colspan="1" class="text-right"></th>
+              </tr>
+            </tfoot>
+          </table>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary bg-navy">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

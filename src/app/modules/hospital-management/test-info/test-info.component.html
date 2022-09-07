@@ -1,0 +1,190 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Test Info</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="" routerLinkActive="active">Home</a></li>
+                        <li class="breadcrumb-item active">Manage User</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button data-toggle="modal" data-target="#testModal" type="button" class="btn btn-block btn-info btn-xs card-title bg-navy" style="width: 120px;">New
+                                Test</button>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;" class="text-center">SL #</th>
+                                        <th>Test Name</th>
+                                        <th>Test Category</th>
+                                        <th>Unit</th>
+                                        <th class="text-right">Test Cost</th>
+                                        <th class="text-center">Doctor Percentage (%)</th>
+                                        <th class="text-right">Doctor Cash</th>
+                                        <th>Remarks</th>
+                                        <th style="width: 40px;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of itemList; let ndx = index">
+                                        <td class="text-center">{{ndx + 1}}</td>
+                                        <td>{{item.testName}}</td>
+                                        <td>{{item.categoryName}}</td>
+                                        <td>{{item.unit}}</td>
+                                        <td class="text-right">{{item.testCost}}</td>
+                                        <td class="text-center">{{item.percentangeToDoctor}}</td>
+                                        <td class="text-right">{{item.cashToDoctor}}</td>
+                                        <td>{{item.remarks}}</td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-info btn-xs bg-navy dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <li><a class="dropdown-item" (click)="pupulateForm(item)" data-toggle="modal" data-target="#testModal">Edit</a></li>
+                                                        <li><a class="dropdown-item" (click)="onDelete(item.testId)">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <div class="row">
+                <app-test-type class="col-6"></app-test-type>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+<div class="modal fade" id="testModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-navy">
+                <h4 class="modal-title">Test Information</h4>
+                <button type="button" class="close text-white" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="clearForm()">×</span>
+                </button>
+            </div>
+            <form [formGroup]="testInfoForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <input type="hidden" formControlName="testId">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Test Name</label>
+                                <input type="text" class="form-control" formControlName="testName">
+                                <span *ngIf="testName?.invalid && formSubmitAttempt || testName?.invalid && testName?.touched" class="error invalid-message text-danger">Please enter a Test
+                                    Name</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Test Category</label>
+                                <select formControlName="categoryId" class="form-control" (click)="getTestCategory()">
+                                    <option value="" selected disabled>Select Category</option>
+                                    <option *ngFor="let category of categoryList" [ngValue]="category.categoryId">{{category.categoryName}}</option>
+                                </select>
+                                <span *ngIf="categoryId?.invalid && formSubmitAttempt || categoryId?.invalid && categoryId?.invalid && categoryId?.touched" class="error invalid-message text-danger">Please select a test
+                                    category</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Unit</label>
+                            <input type="text" class="form-control" formControlName="unit">
+                            <span *ngIf="unit?.invalid && formSubmitAttempt || unit?.invalid && unit?.invalid  && unit?.touched" class="error invalid-message text-danger">Please enter a Unit</span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Test Cost</label>
+                                <input type="number" class="form-control" formControlName="testCost" (keyup)="fillCashToDoctor()">
+                                <span *ngIf="testCost?.invalid && formSubmitAttempt || testCost?.invalid && testCost?.touched" class="error invalid-message text-danger">Please enter a Test
+                                    Cost</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Doctor Percentage</label>
+                                <input type="number" (keyup)="fillCashToDoctor()" class="form-control" formControlName="percentangeToDoctor">
+                                <span *ngIf="percentangeToDoctor?.invalid && formSubmitAttempt || percentangeToDoctor?.invalid && percentangeToDoctor?.invalid && percentangeToDoctor?.touched" class="error invalid-message text-danger">Please enter a Doctor Percentage</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Cash To Doctor</label>
+                            <input type="number" class="form-control" formControlName="cashToDoctor">
+                            <span *ngIf="cashToDoctor?.invalid && formSubmitAttempt || cashToDoctor?.invalid && cashToDoctor?.touched" class="error invalid-message text-danger">Please enter
+                                a Doctor Cash</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Remarks</label>
+                                <textarea class="form-control" rows="3" placeholder="Write here..." formControlName="remarks"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearForm()">Close</button>
+                    <button type="submit" class="btn btn-primary bg-navy"> Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

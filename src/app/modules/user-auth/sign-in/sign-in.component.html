@@ -1,0 +1,66 @@
+<div class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>HOSPITAL&nbsp;</b>LTD</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="User Name" formControlName="userName">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <span *ngIf="userName?.invalid && userName?.touched" class="error invalid-message">Please enter a email address.</span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                            <div class="input-group-append">
+                                <div class="input-group-text"> 
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <span *ngIf="password?.invalid && password?.touched" class="error invalid-message">Please enter your password.</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember" (change)=onCheckboxChange($event)>
+                                <label for="remember">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="signInForm.invalid">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <!-- <div class="social-auth-links text-center mt-2 mb-3">
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    </a>
+                </div> -->
+                <!-- /.social-auth-links -->
+                    <a routerLink='/sign-up' routerLinkActive="active" class="text-center">Register a new membership</a>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
